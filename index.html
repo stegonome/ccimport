@@ -1,19 +1,30 @@
-<!doctype html>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
 	<title>ChopeCrew Import</title>
+
+	<link href="index.css" rel="stylesheet">
+
+	<script src="xml2json.js"></script>
+    <script src="cozysdk-client.js"></script>
 </head>
 <body>
 
-	<form method="post">
+	<form id="file-form" method="post">
 		<label for="file-input">Choisissez un fichier</label>
 		<input type="file" id="file-input">
 		<input type="submit" value="importer">
 	</form>
 
+
+	<br>
+
+	<span id="status">chargement...</span>
 	<script src="index.js"></script>
 
+    <br>
+    
+    <button id="dummy">Export dummy event</button>
 </body>
 </html>

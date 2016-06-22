@@ -4,5 +4,10 @@
 	"cozy-displayName": "ChopeCrew Import",
 	"version": "0.0.1",
 	"description" : "Importez vos planning ChopeCrew dans Cozy",
-	"icon-path": "icon.png"
+	"icon-path": "icon.png",
+    "permissions": {
+        "event": {
+            "description" : "gestion de votre calendrier"
+        }
+    }
 }

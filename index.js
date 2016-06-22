@@ -18,13 +18,13 @@ function script(){
         e.preventDefault();
         var event = {
             docType         : "event",
-                start           : "20160628",
-                end             : "20160629",
+                start           : "2016-06-28",
+                end             : "2016-06-29",
                 place           : "dans ton cul",
                 details         : "évènement test",
                 description     : "test d'export d évènement",
                 rrule           : "",
-                tags            : ["test"],
+                tags            : ["AF"],
                 attendees       : [],
                 related         : "",
                 timezone        : "Europe/Paris",

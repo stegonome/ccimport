@@ -6,7 +6,7 @@
 	"description" : "Importez vos planning ChopeCrew dans Cozy",
 	"icon-path": "icon.png",
     "permissions": {
-        "event": {
+        "Event": {
             "description" : "gestion de votre calendrier"
         }
     }

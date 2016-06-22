@@ -124,15 +124,18 @@ function script(){
 
 		var year = planningXml.querySelector("planning").getAttribute("mois").slice(3);
         var month = planningXml.querySelector("planning").getAttribute("mois").slice(0,2);
-        var today = new Date();
+      
         
         var sols = planningXml.querySelectorAll("sol");
         var rotations = planningXml.querySelectorAll("rotation");
         
         rotations.forEach(function(rotation){
-            var startDay = year + firstSvDate(rotation),
-                endDay = year + lastSvDate(rotation);
-            var rotation = xmlToJson(rotation);
+            
+            cozyEvents = cozyEvents.concat(extractFlights(rotation, year));
+            
+            var startDay = year + "-" + firstSvDate(rotation),
+                endDay = year + "-" + lastSvDate(rotation);
+            var rotation = JSON.parse(xml2json(rotation,"")).rotation;
             var cozyrot = {
                 docType         : "event",
                 start           : startDay,
@@ -150,57 +153,79 @@ function script(){
                 lastModification: "",
             };
                 
-            console.log(cozyrot);    
+            //console.log(cozyrot);
+            cozyEvents.push(cozyrot);
+            
         });
+        
+        importInCozy();
     }
     
+    function extractFlights(rotation, year){
+        var year = year;
+        var svs = rotation.querySelectorAll("sv");
+        var flights = [];
+        
+        svs.forEach(function(sv){
+            var dateString = sv.querySelector("date").textContent.split("/"),
+                month = dateString[1],
+                day = dateString[0];
+            
+            var vols = sv.querySelectorAll("vol");
+            vols.forEach(function(vol){
+                var vol = JSON.parse(xml2json(vol,"")).vol;
+                window.vol = vol;
+                var hour = vol.dep.split("h")[0],
+                    min = vol.dep.split("h")[1],
+                    startTime = [year,month,day].join("-") + "T" + [hour,min,"00.000Z"].join(":");
+                
+                var hour = vol.arr.split("h")[0],
+                    min = vol.arr.split("h")[1],
+                    endTime = [year,month,day].join("-") + "T" + [hour,min,"00.000Z"].join(":");
+                
+                var details = [vol.numVol,"|",vol.from,"-",vol.to,"|",vol.type].join(" ");
+                
+                var description = ["tout","un","tas","de","trucs"].join(" ");
+               
+                
+                var cozyflight = {
+                    docType         : "event",
+                    start           : startTime,
+                    end             : endTime,
+                    place           : "",
+                    details         : details,
+                    description     : description,
+                    rrule           : "",
+                    tags            : ["vol"],
+                    attendees       : [],
+                    related         : "",
+                    timezone        : "UTC",
+                    alarms          : [],
+                    created         : new Date().toDateString(),
+                    lastModification: "",
+                };
+                
+                flights.push(cozyflight);
+            });
+        });
+        
+        return flights;
+    }
     
     function firstSvDate(rotation){
-        return rotation.querySelector("sv").querySelector("date").textContent.split("/").join();
+        var dateString = rotation.querySelector("sv").querySelector("date").textContent.split("/");
+        return dateString[1] + "-" + dateString[0];
     }
     
     function lastSvDate(rotation){
         var rotation = rotation,
             svs = rotation.querySelectorAll("sv");
-        return svs[svs.length - 1].querySelector("date").textContent.split("/").join();
+        var dateString = svs[svs.length - 1].querySelector("date").textContent.split("/");
+        return dateString[1] + "-" + dateString[0];
     }
     
     
-    function createCozyRot(rotationXml, year){
-        var cozyRot = {};
-        var year = year;
-        var rotation = rotationXml;
-        var svs = rotation.querySelectorAll("sv");
-        var startDate = svs[0].querySelector("date").textContent;
-        var endDate = svs[svs.length -1].querySelector("date").textContent;
     
-        
-        var start = startDate.split("/").join() + year;
-        var end = endDate.split("/").join() + year;
-        
-        rotation = xmlToJson(rotation);//conversion en json pour plus de facilité, pas fait avant car il pourrait n'y avoir qu'un seul sv,
-        //donc un objet au lieu d'un tableau avec la fonction xmlToJson
-        
-        
-        //description c'est le titre
-         cozyRot = {
-            docType         : "event",
-            start           : start,
-            end             : end,
-            place           : "",
-            details         : rotation.rotationId,
-            description     : rotationTemplate(rotation),
-            rrule           : "",
-            tags            : ["sol"],
-            attendees       : [],
-            related         : "",
-            timezone        : "Europe/Paris",
-            alarms          : [],
-            created         : new Date().toDateString(),
-            lastModification: "",
-        }
-        
-    }
     
     function rotationTemplate(rot){
         var rot = rot;
@@ -209,6 +234,18 @@ function script(){
 
     
     
+    function importInCozy(){
+        
+        console.log(cozyEvents);
+        
+        for (var i=0; i<cozyEvents.length; i++){
+            cozysdk.create("Event", cozyEvents[i], function(err, res){
+                if(err !== null) return alert(err);
+            }, false)
+        }
+       
+    }
+  
     
     
     
@@ -224,57 +261,168 @@ function script(){
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-	//librairie extérieure
-	// Changes XML to JSON
-	function xmlToJson(xml) {
+    /*	This work is licensed under Creative Commons GNU LGPL License.
 
-		// Create the return object
-		var obj = {};
-
-		if (xml.nodeType == 1) { // element
-			// do attributes
-			if (xml.attributes.length > 0) {
-			obj["@attributes"] = {};
-				for (var j = 0; j < xml.attributes.length; j++) {
-					var attribute = xml.attributes.item(j);
-					obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
-				}
-			}
-		} else if (xml.nodeType == 3) { // text
-			obj = xml.nodeValue;
-		}
-
-		// do children
-		if (xml.hasChildNodes()) {
-			for(var i = 0; i < xml.childNodes.length; i++) {
-				var item = xml.childNodes.item(i);
-				var nodeName = item.nodeName;
-				if (typeof(obj[nodeName]) == "undefined") {
-					obj[nodeName] = xmlToJson(item);
-				} else {
-					if (typeof(obj[nodeName].push) == "undefined") {
-						var old = obj[nodeName];
-						obj[nodeName] = [];
-						obj[nodeName].push(old);
-					}
-					obj[nodeName].push(xmlToJson(item));
-				}
-			}
-		}
-		return obj;
-	};
+	License: http://creativecommons.org/licenses/LGPL/2.1/
+   Version: 0.9
+	Author:  Stefan Goessner/2006
+	Web:     http://goessner.net/ 
+*/
+    function xml2json(xml, tab) {
+       var X = {
+          toObj: function(xml) {
+             var o = {};
+             if (xml.nodeType==1) {   // element node ..
+                if (xml.attributes.length)   // element with attributes  ..
+                   for (var i=0; i<xml.attributes.length; i++)
+                      o["@"+xml.attributes[i].nodeName] = (xml.attributes[i].nodeValue||"").toString();
+                if (xml.firstChild) { // element has child nodes ..
+                   var textChild=0, cdataChild=0, hasElementChild=false;
+                   for (var n=xml.firstChild; n; n=n.nextSibling) {
+                      if (n.nodeType==1) hasElementChild = true;
+                      else if (n.nodeType==3 && n.nodeValue.match(/[^ \f\n\r\t\v]/)) textChild++; // non-whitespace text
+                      else if (n.nodeType==4) cdataChild++; // cdata section node
+                   }
+                   if (hasElementChild) {
+                      if (textChild < 2 && cdataChild < 2) { // structured element with evtl. a single text or/and cdata node ..
+                         X.removeWhite(xml);
+                         for (var n=xml.firstChild; n; n=n.nextSibling) {
+                            if (n.nodeType == 3)  // text node
+                               o["#text"] = X.escape(n.nodeValue);
+                            else if (n.nodeType == 4)  // cdata node
+                               o["#cdata"] = X.escape(n.nodeValue);
+                            else if (o[n.nodeName]) {  // multiple occurence of element ..
+                               if (o[n.nodeName] instanceof Array)
+                                  o[n.nodeName][o[n.nodeName].length] = X.toObj(n);
+                               else
+                                  o[n.nodeName] = [o[n.nodeName], X.toObj(n)];
+                            }
+                            else  // first occurence of element..
+                               o[n.nodeName] = X.toObj(n);
+                         }
+                      }
+                      else { // mixed content
+                         if (!xml.attributes.length)
+                            o = X.escape(X.innerXml(xml));
+                         else
+                            o["#text"] = X.escape(X.innerXml(xml));
+                      }
+                   }
+                   else if (textChild) { // pure text
+                      if (!xml.attributes.length)
+                         o = X.escape(X.innerXml(xml));
+                      else
+                         o["#text"] = X.escape(X.innerXml(xml));
+                   }
+                   else if (cdataChild) { // cdata
+                      if (cdataChild > 1)
+                         o = X.escape(X.innerXml(xml));
+                      else
+                         for (var n=xml.firstChild; n; n=n.nextSibling)
+                            o["#cdata"] = X.escape(n.nodeValue);
+                   }
+                }
+                if (!xml.attributes.length && !xml.firstChild) o = null;
+             }
+             else if (xml.nodeType==9) { // document.node
+                o = X.toObj(xml.documentElement);
+             }
+             else
+                alert("unhandled node type: " + xml.nodeType);
+             return o;
+          },
+          toJson: function(o, name, ind) {
+             var json = name ? ("\""+name+"\"") : "";
+             if (o instanceof Array) {
+                for (var i=0,n=o.length; i<n; i++)
+                   o[i] = X.toJson(o[i], "", ind+"\t");
+                json += (name?":[":"[") + (o.length > 1 ? ("\n"+ind+"\t"+o.join(",\n"+ind+"\t")+"\n"+ind) : o.join("")) + "]";
+             }
+             else if (o == null)
+                json += (name&&":") + "null";
+             else if (typeof(o) == "object") {
+                var arr = [];
+                for (var m in o)
+                   arr[arr.length] = X.toJson(o[m], m, ind+"\t");
+                json += (name?":{":"{") + (arr.length > 1 ? ("\n"+ind+"\t"+arr.join(",\n"+ind+"\t")+"\n"+ind) : arr.join("")) + "}";
+             }
+             else if (typeof(o) == "string")
+                json += (name&&":") + "\"" + o.toString() + "\"";
+             else
+                json += (name&&":") + o.toString();
+             return json;
+          },
+          innerXml: function(node) {
+             var s = ""
+             if ("innerHTML" in node)
+                s = node.innerHTML;
+             else {
+                var asXml = function(n) {
+                   var s = "";
+                   if (n.nodeType == 1) {
+                      s += "<" + n.nodeName;
+                      for (var i=0; i<n.attributes.length;i++)
+                         s += " " + n.attributes[i].nodeName + "=\"" + (n.attributes[i].nodeValue||"").toString() + "\"";
+                      if (n.firstChild) {
+                         s += ">";
+                         for (var c=n.firstChild; c; c=c.nextSibling)
+                            s += asXml(c);
+                         s += "</"+n.nodeName+">";
+                      }
+                      else
+                         s += "/>";
+                   }
+                   else if (n.nodeType == 3)
+                      s += n.nodeValue;
+                   else if (n.nodeType == 4)
+                      s += "<![CDATA[" + n.nodeValue + "]]>";
+                   return s;
+                };
+                for (var c=node.firstChild; c; c=c.nextSibling)
+                   s += asXml(c);
+             }
+             return s;
+          },
+          escape: function(txt) {
+             return txt.replace(/[\\]/g, "\\\\")
+                       .replace(/[\"]/g, '\\"')
+                       .replace(/[\n]/g, '\\n')
+                       .replace(/[\r]/g, '\\r');
+          },
+          removeWhite: function(e) {
+             e.normalize();
+             for (var n = e.firstChild; n; ) {
+                if (n.nodeType == 3) {  // text node
+                   if (!n.nodeValue.match(/[^ \f\n\r\t\v]/)) { // pure whitespace text node
+                      var nxt = n.nextSibling;
+                      e.removeChild(n);
+                      n = nxt;
+                   }
+                   else
+                      n = n.nextSibling;
+                }
+                else if (n.nodeType == 1) {  // element node
+                   X.removeWhite(n);
+                   n = n.nextSibling;
+                }
+                else                      // any other node
+                   n = n.nextSibling;
+             }
+             return e;
+          }
+       };
+       if (xml.nodeType == 9) // document node
+          xml = xml.documentElement;
+       var json = X.toJson(X.toObj(X.removeWhite(xml)), xml.nodeName, "\t");
+       return "{\n" + tab + (tab ? json.replace(/\t/g, tab) : json.replace(/\t|\n/g, "")) + "\n}";
+    }
+    
+    
+    
+    
+    
+    
+	
 
 
 }

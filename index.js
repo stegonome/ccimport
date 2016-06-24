@@ -158,7 +158,88 @@ function script(){
             
         });
         
+        sols.forEach(function(sol){
+            
+            cozyEvents.push(extractSol(sol, year));
+            
+        });
+        
+        
         importInCozy();
+    }
+    
+    function extractSol(sol, year){
+        var year = year;
+        var sol = JSON.parse(xml2json(sol,"")).sol;
+        var tag, place, details, description, start, end;
+        
+        switch(sol.code){
+            case "PAC":
+            case "RPC":
+            case "PRB":
+            case "MAD":
+                //repos
+                tag = "repos";
+                place = "";
+                description = "Repos";
+                details = sol.intitule;
+                start = end = year + sol.date.split("/")[1] + sol.date.split("/")[0];
+                break;
+            case "MCA":
+            case "MCE":
+                //congé
+                tag = "conges";
+                place = "";
+                description = "Congés";
+                details = sol.intitule;
+                start = end = year + sol.date.split("/")[1] + sol.date.split("/")[0];
+                break;
+            case "DSP":
+                //dispersion
+                tag = "dispersions";
+                place = "";
+                description = "Dispersion";
+                details = sol.intitule;
+                start = end = year + sol.date.split("/")[1] + sol.date.split("/")[0];
+                break;
+            case "SST":
+            case "MCI":
+                //ECP
+                tag = "ECP";
+                description = sol.intitule;
+                details = "faire qqch pour les détails";
+                place = sol.lieu ? sol.lieu : "" + "\n" + sol.salle ? sol.salle : "";
+                var day = year + sol.date.split("/")[1] + sol.date.split("/")[0];
+                start = day + "T" + sol.debut.split("h")[0] + ":" + sol.debut.split("h")[1] + ":00.000";
+                end = day + "T" + sol.fin.split("h")[0] + ":" + sol.fin.split("h")[1] + ":00.000";
+                break;
+            default:
+                tag = "Autres"
+                place = "";
+                start = end = year + sol.date.split("/")[1] + sol.date.split("/")[0];
+                //peut-il y avoir des activités sol de plusieurs jour ? klif ??
+        }
+        
+     
+  
+        return {
+            docType         : "event",
+            start           : start,
+            end             : end,
+            place           : place,
+            details         : details,
+            description     : description,
+            rrule           : "",
+            tags            : [tag],
+            attendees       : [],
+            related         : "",
+            timezone        : "Europe/Paris",
+            alarms          : [],
+            created         : new Date().toDateString(),
+            lastModification: "",
+        };
+            
+        
     }
     
     function extractFlights(rotation, year){
@@ -183,9 +264,9 @@ function script(){
                     min = vol.arr.split("h")[1],
                     endTime = [year,month,day].join("-") + "T" + [hour,min,"00.000Z"].join(":");
                 
-                var details = [vol.numVol,"|",vol.from,"-",vol.to,"|",vol.type].join(" ");
+                var description = [vol.numVol,"|",vol.from,"-",vol.to,"|",vol.type].join(" ");
                 
-                var description = ["tout","un","tas","de","trucs"].join(" ");
+                var details = ["tout","un","tas","de","trucs"].join(" ");
                
                 
                 var cozyflight = {
@@ -238,6 +319,8 @@ function script(){
         
         console.log(cozyEvents);
         
+        
+        //à décommenter pour cozy
         for (var i=0; i<cozyEvents.length; i++){
             cozysdk.create("Event", cozyEvents[i], function(err, res){
                 if(err !== null) return alert(err);

@@ -19,7 +19,7 @@ function script(){
         var event = {
             docType         : "event",
                 start           : "2016-06-28",
-                end             : "2016-06-29",
+                end             : "2016-06-29T00:01:00.000",
                 place           : "dans ton cul",
                 details         : "évènement test",
                 description     : "test d'export d évènement",
@@ -118,6 +118,9 @@ function script(){
 		//simple avec un querySelectorAll
 
 	//	window.planning = planning;
+        
+        
+     
 
 		window.planningXml = xmlDoc;
 		var planningXml = xmlDoc;
@@ -125,6 +128,7 @@ function script(){
 		var year = planningXml.querySelector("planning").getAttribute("mois").slice(3);
         var month = planningXml.querySelector("planning").getAttribute("mois").slice(0,2);
       
+           //TODO , effacer le planning précédent
         
         var sols = planningXml.querySelectorAll("sol");
         var rotations = planningXml.querySelectorAll("rotation");

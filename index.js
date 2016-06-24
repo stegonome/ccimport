@@ -302,7 +302,7 @@ function script(){
     
     function firstSvDate(rotation){
         var dateString = rotation.querySelector("sv").querySelector("date").textContent.split("/");
-        return dateString[1] + "-" + (parseInt(dateString[0])+1).toString();
+        return dateString[1] + "-0" + (parseInt(dateString[0])+1).toString();
     }
     
     function lastSvDate(rotation){

@@ -139,7 +139,7 @@ function script(){
             var cozyrot = {
                 docType         : "event",
                 start           : startDay,
-                end             : endDay + 1,//sinon ça s'arrête juste avant sur Cozy
+                end             : endDay,
                 place           : "",
                 details         : rotation.rotationId,
                 description     : "Rotation",
@@ -305,7 +305,17 @@ function script(){
         var rotation = rotation,
             svs = rotation.querySelectorAll("sv");
         var dateString = svs[svs.length - 1].querySelector("date").textContent.split("/");
+        var vols = svs[svs.length - 1].querySelectorAll("vol"),
+            lastflight = vols[vols.length -1];
+        var dep = lastflight.querySelector("dep").textContent.split("h").join(),
+            arr = lastflight.querySelector("arr").textContent.split("h").join();
+        
+        if (arr < dep){
+            //arrivée le jour suivant
+            return dateString[1] + "-0" + (parseInt(dateString[0])+1).toString(); 
+        } 
         return dateString[1] + "-" + dateString[0];
+        
     }
     
     

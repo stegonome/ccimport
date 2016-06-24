@@ -355,7 +355,7 @@ function script(){
         cozysdk.defineView('Event', 'bydate', function (){
             emit(doc.date, doc);
         });
-        var rst = cozysdk.queryView('doctype', 'bydate', {});
+        var rst = cozysdk.queryView('Event', 'bydate', {});
         console.log("évenements", rst);
     }
   

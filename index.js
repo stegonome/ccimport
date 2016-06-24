@@ -131,6 +131,7 @@ function script(){
         var month = planningXml.querySelector("planning").getAttribute("mois").slice(0,2);
       
            //TODO , effacer le planning précédent
+        eraseEvents(month);
         
         var sols = planningXml.querySelectorAll("sol");
         var rotations = planningXml.querySelectorAll("rotation");
@@ -348,6 +349,14 @@ function script(){
             }, false)
         }
        
+    }
+    
+    function eraseEvents(month){
+        cozysdk.defineMapReduceView('Event', 'bydate', function (){
+            emit(doc.date, doc);
+        });
+        var rst = cozysdk.queryView('doctype', 'bydate', {});
+        console.log("évenements", rst);
     }
   
     

@@ -352,7 +352,7 @@ function script(){
     }
     
     function eraseEvents(month){
-        cozysdk.defineMapReduceView('Event', 'bydate', function (){
+        cozysdk.defineView('Event', 'bydate', function (){
             emit(doc.date, doc);
         });
         var rst = cozysdk.queryView('doctype', 'bydate', {});

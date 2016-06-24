@@ -302,7 +302,7 @@ function script(){
     
     function firstSvDate(rotation){
         var dateString = rotation.querySelector("sv").querySelector("date").textContent.split("/");
-        return dateString[1] + "-" + dateString[0];
+        return dateString[1] + "-" + (parseInt(dateString[0])+1).toString();
     }
     
     function lastSvDate(rotation){
@@ -316,7 +316,9 @@ function script(){
         
         if (arr < dep){
             //arrivée le jour suivant
-            return dateString[1] + "-0" + (parseInt(dateString[0])+1).toString(); 
+            return dateString[1] + "-0" + (parseInt(dateString[0])+2).toString(); 
+            //il faut rajouter 1 jour car le dernier est exclu
+            //par cozy calendar apparemment
         } 
         return dateString[1] + "-" + dateString[0];
         

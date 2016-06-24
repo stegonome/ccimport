@@ -183,7 +183,7 @@ function script(){
                 place = "";
                 description = "Repos";
                 details = sol.intitule;
-                start = end = year + sol.date.split("/")[1] + sol.date.split("/")[0];
+                start = end = year + "-" + sol.date.split("/")[1] + "-" + sol.date.split("/")[0];
                 break;
             case "MCA":
             case "MCE":
@@ -192,7 +192,7 @@ function script(){
                 place = "";
                 description = "Congés";
                 details = sol.intitule;
-                start = end = year + sol.date.split("/")[1] + sol.date.split("/")[0];
+                start = end = year + "-" + sol.date.split("/")[1] + "-" + sol.date.split("/")[0];
                 break;
             case "DSP":
                 //dispersion
@@ -200,7 +200,7 @@ function script(){
                 place = "";
                 description = "Dispersion";
                 details = sol.intitule;
-                start = end = year + sol.date.split("/")[1] + sol.date.split("/")[0];
+                start = end = year + "-" + sol.date.split("/")[1] + "-" + sol.date.split("/")[0];
                 break;
                 
             
@@ -212,14 +212,14 @@ function script(){
                 description = sol.intitule;
                 details = "faire qqch pour les détails";
                 place = sol.lieu ? sol.lieu : "" + "\n" + sol.salle ? sol.salle : "";
-                var day = year + sol.date.split("/")[1] + sol.date.split("/")[0];
+                var day = year + "-" sol.date.split("/")[1] + "-" + sol.date.split("/")[0];
                 start = day + "T" + sol.debut.split("h")[0] + ":" + sol.debut.split("h")[1] + ":00.000";
                 end = day + "T" + sol.fin.split("h")[0] + ":" + sol.fin.split("h")[1] + ":00.000";
                 break;
             default:
                 tag = "Autres"
                 place = "";
-                start = end = year + sol.date.split("/")[1] + sol.date.split("/")[0];
+                start = end = year + "-" + sol.date.split("/")[1] + "-" + sol.date.split("/")[0];
                 //peut-il y avoir des activités sol de plusieurs jour ? klif ??
         }
         

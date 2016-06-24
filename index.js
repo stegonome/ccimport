@@ -139,7 +139,7 @@ function script(){
             var cozyrot = {
                 docType         : "event",
                 start           : startDay,
-                end             : endDay,
+                end             : endDay + 1,//sinon ça s'arrête juste avant sur Cozy
                 place           : "",
                 details         : rotation.rotationId,
                 description     : "Rotation",

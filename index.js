@@ -353,7 +353,7 @@ function script(){
     
     function eraseEvents(month){
         
-        var bydate = function(doc){if(doc.start)emit(doc.start);}
+        var bydate = function(doc){if(doc.start && doc.start.substr(5,2) === month)emit(doc.start);}
         
         cozysdk.defineView("Event","all",bydate,function(err){
             if(!err){

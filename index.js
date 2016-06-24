@@ -357,7 +357,7 @@ function script(){
         
         cozysdk.defineView("Event","all",bydate,function(err){
             if(!err){
-                console.log(la vue a été créée);
+                console.log("la vue a été créée");
             }
         });
     }

@@ -354,6 +354,7 @@ function script(){
     function eraseEvents(month){
         
         var bydate = function(doc){if(doc.start)emit(doc.start);}
+        
         cozysdk.defineView("Event","all",bydate,function(err){
             if(!err){
                 console.log(la vue a été créée);

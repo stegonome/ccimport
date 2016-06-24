@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", script, false);
 
 
 function script(){
+    
+    console.log("bienvenue dans ccimport");
 
 	var cozyEvents = [];
 
@@ -302,7 +304,7 @@ function script(){
     
     function firstSvDate(rotation){
         var dateString = rotation.querySelector("sv").querySelector("date").textContent.split("/");
-        return dateString[1] + "-0" + (parseInt(dateString[0])+1).toString();
+        return dateString[1] + "-" + dateString[0];
     }
     
     function lastSvDate(rotation){
@@ -320,7 +322,7 @@ function script(){
             //il faut rajouter 1 jour car le dernier est exclu
             //par cozy calendar apparemment
         } 
-        return dateString[1] + "-" + dateString[0];
+        return dateString[1] + "-0" + (parseInt(dateString[0])+1).toString();
         
     }
     

@@ -202,10 +202,13 @@ function script(){
                 details = sol.intitule;
                 start = end = year + sol.date.split("/")[1] + sol.date.split("/")[0];
                 break;
+                
+            
             case "SST":
             case "MCI":
+            case "RBR":
                 //ECP
-                tag = "ECP";
+                tag = "Activités sol";
                 description = sol.intitule;
                 details = "faire qqch pour les détails";
                 place = sol.lieu ? sol.lieu : "" + "\n" + sol.salle ? sol.salle : "";

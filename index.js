@@ -153,7 +153,7 @@ function script(){
                 tags            : ["vol"],
                 attendees       : [],
                 related         : "",
-                timezone        : "Europe/Paris",
+                timezone        : "UTC",
                 alarms          : [],
                 created         : new Date().toDateString(),
                 lastModification: "",

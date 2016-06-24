@@ -352,11 +352,13 @@ function script(){
     }
     
     function eraseEvents(month){
-        cozysdk.defineView('Event', 'bydate', function (){
-            emit(doc.date, doc);
+        
+        var bydate = function(doc){if(doc.start)emit(doc.start);}
+        cozysdk.defineView("Event","all",bydate,function(err){
+            if(!err){
+                console.log(la vue a été créée);
+            }
         });
-        var rst = cozysdk.queryView('Event', 'bydate', {});
-        console.log("évenements", rst);
     }
   
     

@@ -385,8 +385,16 @@ function script(){
             }
         }
         
-        var params = {startkey:year+month+"00", endkey:year+month+"31"}
-        cozysdk.destroyByView("Event",thismonth,params).then(console.log("effaces"));
+        
+        cozysdk.defineView("Event","all",thismonth).then(function(){
+            return {
+                {startkey:year+month+"00", endkey:year+month+"31"}
+            }
+        },function(err){
+            console.log("error",err);
+        }).then(function(params){
+            console.log("parmètres promis ", params);
+        });
         
         cozysdk.defineView("Event","all",thismonth,function(err){
             if(!err){
@@ -401,7 +409,7 @@ function script(){
                            i++;
                        });
                        //console.log(res);
-                       console.log(i + " éléments éffacés");
+                       console.log(i + " éléments effacés");
                    } 
                 });
             }

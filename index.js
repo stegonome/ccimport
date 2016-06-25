@@ -82,8 +82,8 @@ function script(){
 			status.textContent = statusMsg[5];
 			status.classList.remove("error");
             
-			debug();
-            //createPlanning(xmlDoc);//création du planning
+			//debug();
+            createPlanning(xmlDoc);//création du planning
 		} else {//si non affiche fichier invalide
 			status.textContent = statusMsg[1];
 			status.classList.add("error");
@@ -133,7 +133,7 @@ function script(){
         var month = planningXml.querySelector("planning").getAttribute("mois").slice(0,2);
       
            //TODO , effacer le planning précédent
-        eraseEvents(month);
+        //eraseEvents(month);
         
         var sols = planningXml.querySelectorAll("sol");
         var rotations = planningXml.querySelectorAll("rotation");

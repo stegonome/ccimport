@@ -379,7 +379,7 @@ function script(){
             if(doc.start && doc.tags && doc.tags.forEach){
                 doc.tags.forEach(function(tag){
                     if(tag === "af"){
-                        doc.emit(doc.start,doc.tags);
+                        emit(doc.start,doc.tags);
                     }
                 });
             }

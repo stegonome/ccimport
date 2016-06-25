@@ -26,7 +26,7 @@ function script(){
                 details         : "évènement test",
                 description     : "test d'export d évènement",
                 rrule           : "",
-                tags            : ["TEST"],
+                tags            : ["TEST1","TEST2"],
                 attendees       : [],
                 related         : "",
                 timezone        : "Europe/Paris",

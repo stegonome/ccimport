@@ -385,7 +385,7 @@ function script(){
             }
         }
         
-        cozysdk.defineView("Event","all",thismonth,function(err){
+        cozysdk.destroyByView("Event","all",thismonth,function(err){
             if(!err){
                 //console.log("la vue a été créée");
                 var params = {startkey:year+month+"00", endkey:year+month+"31"}
@@ -393,6 +393,7 @@ function script(){
                 cozysdk.run("Event","all",params,function(err,res){
                    if(!err){
                        console.log(res);
+                       console.log("éléments éffacés");
                    } 
                 });
             }

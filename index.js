@@ -375,7 +375,7 @@ function script(){
         
         var year="2016-"
         var month = "01-"
-        var bydate = function(doc){if(doc.start)emit(doc.start);}
+        var bydate = function(doc){if(doc.start)emit(doc.start, doc.tag);}
         
         cozysdk.defineView("Event","all",bydate,function(err){
             if(!err){

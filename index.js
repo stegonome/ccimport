@@ -385,15 +385,20 @@ function script(){
             }
         }
         
-        cozysdk.destroyByView("Event","all",thismonth,function(err){
+        cozysdk.defineView("Event","all",thismonth,function(err){
             if(!err){
                 //console.log("la vue a été créée");
                 var params = {startkey:year+month+"00", endkey:year+month+"31"}
                 console.log(params);
                 cozysdk.run("Event","all",params,function(err,res){
                    if(!err){
-                       console.log(res);
-                       console.log("éléments éffacés");
+                       var i = 0;
+                       res.forEach(function(evt){
+                           cozysdk.destroy("Event",evt.id);
+                           i++;
+                       });
+                       //console.log(res);
+                       console.log(i + " éléments éffacés");
                    } 
                 });
             }

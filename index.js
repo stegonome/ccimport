@@ -386,13 +386,13 @@ function script(){
         }
         
         
-        cozysdk.defineView("Event","all",thismonth).then(function(){
+        /*cozysdk.defineView("Event","all",thismonth).then(function(){
             return {startkey:year+month+"00", endkey:year+month+"31"}
         },function(err){
             console.log("error",err);
         }).then(function(params){
             console.log("parmètres promis ", params);
-        });
+        });*/
         
         cozysdk.defineView("Event","all",thismonth,function(err){
             if(!err){

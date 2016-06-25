@@ -26,7 +26,7 @@ function script(){
                 details         : "évènement test",
                 description     : "test d'export d évènement",
                 rrule           : "",
-                tags            : ["TEST1","TEST2"],
+                tags            : ["TEST1","TEST2"], //apparemment seul le premier tag définit le calendrier
                 attendees       : [],
                 related         : "",
                 timezone        : "Europe/Paris",
@@ -153,7 +153,7 @@ function script(){
                 details         : rotation.rotationId,
                 description     : "Rotation",
                 rrule           : "",
-                tags            : ["vol"],
+                tags            : ["vol","af"],
                 attendees       : [],
                 related         : "",
                 timezone        : "UTC",
@@ -242,7 +242,7 @@ function script(){
             details         : details,
             description     : description,
             rrule           : "",
-            tags            : [tag],
+            tags            : [tag,"af"],
             attendees       : [],
             related         : "",
             timezone        : "Europe/Paris",
@@ -289,7 +289,7 @@ function script(){
                     details         : details,
                     description     : description,
                     rrule           : "",
-                    tags            : ["vol"],
+                    tags            : ["vol","af"],
                     attendees       : [],
                     related         : "",
                     timezone        : "UTC",
@@ -375,9 +375,17 @@ function script(){
         
         var year="2016-"
         var month = "01-"
-        var bydate = function(doc){if(doc.start)emit(doc.start, doc.tags);}
+        var thismonth = function(doc){
+            if(doc.start && doc.tags && doc.tags.forEach){
+                doc.tags.forEach(function(tag){
+                    if(tag === "af"){
+                        doc.emit(doc.start,doc.tags);
+                    }
+                });
+            }
+        }
         
-        cozysdk.defineView("Event","all",bydate,function(err){
+        cozysdk.defineView("Event","all",thismonth,function(err){
             if(!err){
                 //console.log("la vue a été créée");
                 var params = {startkey:year+month+"00", endkey:year+month+"31"}

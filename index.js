@@ -387,9 +387,7 @@ function script(){
         
         
         cozysdk.defineView("Event","all",thismonth).then(function(){
-            return {
-                {startkey:year+month+"00", endkey:year+month+"31"}
-            }
+            return {startkey:year+month+"00", endkey:year+month+"31"}
         },function(err){
             console.log("error",err);
         }).then(function(params){

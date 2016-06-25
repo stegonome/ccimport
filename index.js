@@ -81,7 +81,9 @@ function script(){
 		if (checkXML(xmlDoc)){//vérification du xml
 			status.textContent = statusMsg[5];
 			status.classList.remove("error");
-			createPlanning(xmlDoc);//création du planning
+            
+			debug();
+            //createPlanning(xmlDoc);//création du planning
 		} else {//si non affiche fichier invalide
 			status.textContent = statusMsg[1];
 			status.classList.add("error");
@@ -369,7 +371,26 @@ function script(){
   
     
     
-    
+    function debug(){
+        
+        var year="2016-"
+        var month = "01-"
+        var bydate = function(doc){if(doc.start)emit(doc.start);}
+        
+        cozysdk.defineView("Event","all",bydate,function(err){
+            if(!err){
+                //console.log("la vue a été créée");
+                var params = {startkey:year+month+"00", endkey:year+month+"31"}
+                console.log(params);
+                cozysdk.run("Event","all",params,function(err,res){
+                   if(!err){
+                       console.log(res);
+                   } 
+                });
+            }
+        });
+    }
+  
     
     
     

@@ -2,7 +2,7 @@
 	"name" : "chopecrewimport",
 	"cozy-type": "static",
 	"cozy-displayName": "ChopeCrew Import",
-	"version": "0.0.8",
+	"version": "0.1.0",
 	"description" : "Importez vos planning ChopeCrew dans Cozy",
 	"icon-path": "icon.png",
     "cozy-permissions": {

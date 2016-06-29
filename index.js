@@ -320,15 +320,24 @@ function script(){
             lastflight = vols[vols.length -1];
         var dep = lastflight.querySelector("dep").textContent.split("h").join(),
             arr = lastflight.querySelector("arr").textContent.split("h").join();
+
+        var jour = dateString[0],
+        	mois = dateString[1];
         
         if (arr < dep){
             //arrivée le jour suivant
-            return (dateString[1] + "-0" + (parseInt(dateString[0])+2).toString()).slice(-2); 
-            //il faut rajouter 1 jour car le dernier est exclu
+            jour = parseInt(jour,10) + 2;
+            jour = jour.toString();
+            if (jour.length === 1) jour = "0" + jour;
+            return mois + "-" + jour;
+            //il faut rajouter 1 ou 2 jours car le dernier est exclu
             //par cozy calendar apparemment
         } 
-        return (dateString[1] + "-0" + (parseInt(dateString[0])+1).toString()).slice(-2);
-        
+        //arrivée le jour même
+        jour = parseInt(jour,10) + 1;
+            jour = jour.toString();
+            if (jour.length === 1) jour = "0" + jour;
+            return mois + "-" + jour;
     }
     
     

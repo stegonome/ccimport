@@ -82,8 +82,8 @@ function script(){
 			status.textContent = statusMsg[5];
 			status.classList.remove("error");
             
-			debug();
-            //createPlanning(xmlDoc);//création du planning
+			//debug();
+            createPlanning(xmlDoc);//création du planning
 		} else {//si non affiche fichier invalide
 			status.textContent = statusMsg[1];
 			status.classList.add("error");

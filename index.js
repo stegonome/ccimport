@@ -323,11 +323,11 @@ function script(){
         
         if (arr < dep){
             //arrivée le jour suivant
-            return dateString[1] + "-0" + (parseInt(dateString[0])+2).toString(); 
+            return (dateString[1] + "-0" + (parseInt(dateString[0])+2).toString()).slice(-2); 
             //il faut rajouter 1 jour car le dernier est exclu
             //par cozy calendar apparemment
         } 
-        return dateString[1] + "-0" + (parseInt(dateString[0])+1).toString();
+        return (dateString[1] + "-0" + (parseInt(dateString[0])+1).toString()).slice(-2);
         
     }
     

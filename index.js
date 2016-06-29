@@ -356,10 +356,11 @@ function script(){
     }
     
     function eraseEvents(year, month){
+    	var year = year + "-",
+    		month = month + "-";
 
     	return new Promise(function(resolve, reject){
-    		var year = year + "-",
-    			month = month + "-";
+    		
 
     		var thismonth = function(doc){
 	            if(doc.start && doc.tags && doc.tags.forEach){

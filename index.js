@@ -99,9 +99,7 @@ function script(){
         year = parseInt(year);
         month = parseInt(month) - 1;
       
-           //TODO , effacer le planning précédent
-        //eraseEvents(month);
-        
+       
         var sols = planningXml.querySelectorAll("sol");
         var rotations = planningXml.querySelectorAll("rotation");
         
@@ -145,9 +143,9 @@ function script(){
         
         console.log(cozyEvents);
         //décommenter avant de commit
-        /*eraseEvents(year,month).then(function(){
+        eraseEvents(year,month).then(function(){
             importInCozy();
-        });*/
+        });
     }
     
     
@@ -359,12 +357,12 @@ function script(){
         
         
         //à décommenter pour cozy
-       /* for (var i=0; i<cozyEvents.length; i++){
+        for (var i=0; i<cozyEvents.length; i++){
             cozysdk.create("Event", cozyEvents[i], function(err, res){
                 if(err !== null) return alert(err);
             }, false)
         }
-       */
+       
     }
     
     function eraseEvents(year, month){

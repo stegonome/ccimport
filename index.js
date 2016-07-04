@@ -165,13 +165,65 @@ function script(){
                 
             case "vol":
                 var vol = JSON.parse(xml2json(xmlDoc,"")).vol;
+                window.vol = vol;
+                details_str += "Départ UTC: " + vol.from + " à " + vol.dep + " (" + vol.lagFrom + ")";
+                details_str += "\nArrivée UTC: " + vol.to + " à " + vol.arr + " (" + vol.lagTo + ")";
+                details_str += "\n\nAvion: \n type: " + vol.type + "\n version: " + vol.version; 
+                
+                var equipage = "";
+                vol.listPeq.peq.forEach(function(peq){
+                    if(peq.fab  !== null){
+                        equipage += peq.fab + ": " + peq.nom + " " + peq.prenom + "\n";
+                    } else {
+                       equipage += "XXX: " + peq.nom + " " + peq.prenom + "\n";
+                    }
+                });
+                details_str += "\n\n" + equipage;
+                
+                details_str += "\n\nReconnaissances Terrain: \n";
+                if(vol.recoDest){
+                    details_str += "Destination: " + vol.recoDest + "\n\n"
+                }
+                if(vol.listRecoDeg){
+                    details_str += "Dégagements: ";
+                    if(vol.listRecoDeg.recoDeg.forEach){
+                        vol.listRecoDeg.recoDeg.forEach(function(recoDeg){
+                            details_str += "\n" + recoDeg.deg + " : " + recoDeg.categorie;
+                        });
+                    } else {
+                        details_str += "\n" + vol.listRecoDeg.recoDeg.deg + " : " + vol.listRecoDeg.recoDeg.categorie;
+                    }
+                }
+              
+                
+                if(vol.indemTo){
+                    details_str += "\n\nIndemnités: \n";
+                    details_str += "\nMonnaie: " + vol.indemTo.monnaie;
+                    details_str += "\nChange: " + vol.indemTo.change;
+                    details_str += "\nIR: " + vol.indemTo.ir;
+                    details_str += "\nMF: " + vol.indemTo.mf
+                }
                 
                 
-                break;
+                return details_str;
             
             case "sol":
-                console.log("c'est une activité sol");
-                break;
+                var sol = JSON.parse(xml2json(xmlDoc,"")).sol;
+                Object.keys(sol).forEach(function(key){
+                    if(key != "listParticipant"){
+                        details_str += key + ": " + sol[key] + "\n";
+                    }
+                });
+                
+                if(sol.listParticipant){
+                    sol.listParticipant.participant.forEach(function(participant){
+                        details_str += "\n"
+                       Object.keys(participant).forEach(function(key){
+                          details_str += key + ": " + participant[key] + "\n" 
+                       });
+                    });
+                }
+                return details_str;
         }
         
     }
@@ -338,7 +390,7 @@ function script(){
         
         var m = moment.utc([year,mois,jour]);
         
-        if(mois === 1 && month === 11){//mois du vol retour janvier, et mois du planning décembre
+        if(mois === 0 && month === 11){//mois du vol retour janvier, et mois du planning décembre
             m.add(1,"years")
         } 
      

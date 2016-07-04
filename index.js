@@ -7,7 +7,7 @@ function script(){
 
 	var cozyEvents = [];
     var year, month;
-
+    
 	//liste des strings pour les messages de statut
 	var statusMsg = ["chargement","fichier invalide","fichier chargé","sélectionnez un fichier","erreur de lecture","OK"];
 
@@ -370,13 +370,22 @@ function script(){
        
     }
     
-    function eraseEvents(){
+    function eraseEvents(){//effacement des évènements précédents, sur la période du fichier xml
     	
 
-    	return new Promise(function(resolve, reject){
-    		
+    	return new Promise(function(resolve, reject){//il faut une promesse pour effacer les evts
+                                                    //avant	de créer les nouveaux
 
-    		var thismonth = function(doc){
+            //pour couvrir la période il faut récupérer le premier et le dernier évt (en date).
+            var firstEvent = cozyEvents[0],
+                lastEvent = cozyEvents[0];
+            for(var i=0; i<cozyEvents.length; i++){
+                if (cozyEvents[i].start < firstEvent.start) firstEvent = cozyEvents[i];
+                if (cozyEvents[i].end > lastEvent.end) lastEvent = cozyEvents[i];
+            }
+            
+            
+    		var thismonth = function(doc){//view qui renvoie les docs ayant le tag 'af'
 	            if(doc.start && doc.tags && doc.tags.forEach){
 	                doc.tags.forEach(function(tag){
 	                    if(tag === "af"){
@@ -388,11 +397,8 @@ function script(){
 
 	        cozysdk.defineView("Event","all",thismonth,function(err){
 	            if(!err){
-	                //console.log("la vue a été créée");
-                    var an = year.toString(),
-                        mois = "0" + month.toString(),
-                        mois = mois.slice(-2);
-	                var params = {startkey:cozyEvents[0].start.slice(0,10), endkey:cozyEvents[cozyEvents.length-1].end.slice(0,10)}
+	                
+	                var params = {startkey:firstEvent.start.slice(0,10), endkey:lastEvent.end.slice(0,10)}
 	                console.log(params);
 	                cozysdk.run("Event","all",params,function(err,res){
                         console.log(res);

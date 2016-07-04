@@ -387,7 +387,7 @@ function script(){
                     var an = year.toString(),
                         mois = "0" + month.toString(),
                         mois = mois.slice(-2);
-	                var params = {startkey:cozyEvents[0].start, endkey:cozyEvents[cozyEvents.length-1].end}
+	                var params = {startkey:cozyEvents[0].start.slice(0,10), endkey:cozyEvents[cozyEvents.length-1].end.slice(0,10)}
 	                console.log(params);
 	                cozysdk.run("Event","all",params,function(err,res){
                         console.log(res);

@@ -384,7 +384,10 @@ function script(){
 	        cozysdk.defineView("Event","all",thismonth,function(err){
 	            if(!err){
 	                //console.log("la vue a été créée");
-	                var params = {startkey:year+month+1+"00", endkey:year+month+1+"31"}
+                    var an = year.toString(),
+                        mois = "0" + month.toString(),
+                        mois = mois.slice(-2);
+	                var params = {startkey:cozyEvents[0].start, endkey:cozyEvents[cozyEvents.length-1].end}
 	                console.log(params);
 	                cozysdk.run("Event","all",params,function(err,res){
                         console.log(res);

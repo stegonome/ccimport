@@ -143,7 +143,7 @@ function script(){
         
         console.log(cozyEvents);
         //décommenter avant de commit
-        eraseEvents(year,month).then(function(){
+        eraseEvents().then(function(){
             importInCozy();
         });
     }
@@ -365,9 +365,8 @@ function script(){
        
     }
     
-    function eraseEvents(year, month){
-    	var year = year + "-",
-    		month = month + "-";
+    function eraseEvents(){
+    	
 
     	return new Promise(function(resolve, reject){
     		
@@ -385,16 +384,17 @@ function script(){
 	        cozysdk.defineView("Event","all",thismonth,function(err){
 	            if(!err){
 	                //console.log("la vue a été créée");
-	                var params = {startkey:year+month+"00", endkey:year+month+"31"}
+	                var params = {startkey:year+month+1+"00", endkey:year+month+1+"31"}
 	                console.log(params);
 	                cozysdk.run("Event","all",params,function(err,res){
+                        console.log(res);
 	                   if(!err){
 	                       var i = 0;
 	                       res.forEach(function(evt){
 	                           cozysdk.destroy("Event",evt.id);
 	                           i++;
 	                       });
-	                       //console.log(res);
+	                       
 	                       console.log(i + " éléments effacés");
 	                       resolve();
 	                   } 

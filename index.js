@@ -193,7 +193,7 @@ function script(){
                     } else {
                         details_str += "\n" + vol.listRecoDeg.recoDeg.deg + " : " + vol.listRecoDeg.recoDeg.categorie;
                     }
-                }
+                } 
               
                 
                 if(vol.indemTo){

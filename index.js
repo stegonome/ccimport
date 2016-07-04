@@ -367,6 +367,8 @@ function script(){
                 if(err !== null) return alert(err);
             }, false)
         }
+        
+        cozyEvents = [];
        
     }
     

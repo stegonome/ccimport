@@ -224,7 +224,7 @@ function script(){
                 details = details;
                 place = sol.lieu ? sol.lieu : "" + "\n" + sol.salle ? sol.salle : "";
                 var mois = parseInt(sol.date.split("/")[1]) - 1;
-                var jour = parseInt(sol.date.split("/")[1]);
+                var jour = parseInt(sol.date.split("/")[0]);
                 var heure = parseInt(sol.debut.split("h")[0]);
                 var min = parseInt(sol.debut.split("h")[1]);
                 start = moment.utc([year,mois,jour,heure,min]).format();

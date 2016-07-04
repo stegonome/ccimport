@@ -194,7 +194,7 @@ function script(){
                 place = "";
                 description = "Repos";
                 details = details;
-                start = end = new Date(year,mois,jour).toJSON().slice(0,10);
+                start = end = moment.utc([year,mois,jour]).format().slice(0,10);
                 break;
             case "MCA":
             case "MCE":
@@ -203,7 +203,7 @@ function script(){
                 place = "";
                 description = "Congés";
                 details = details;
-                start = end = new Date(year,mois,jour).toJSON().slice(0,10);
+                start = end = moment.utc([year,mois,jour]).format().slice(0,10);
                 break;
             case "DSP":
                 //dispersion
@@ -211,7 +211,7 @@ function script(){
                 place = "";
                 description = "Dispersion";
                 details = details;
-                start = end = new Date(year,mois,jour).toJSON().slice(0,10);
+                start = end = moment.utc([year,mois,jour]).format().slice(0,10);
                 break;
                 
             
@@ -223,14 +223,19 @@ function script(){
                 description = sol.intitule;
                 details = details;
                 place = sol.lieu ? sol.lieu : "" + "\n" + sol.salle ? sol.salle : "";
-                var day = year + "-" + sol.date.split("/")[1] + "-" + sol.date.split("/")[0];
-                start = day + "T" + sol.debut.split("h")[0] + ":" + sol.debut.split("h")[1] + ":00.000";
-                end = day + "T" + sol.fin.split("h")[0] + ":" + sol.fin.split("h")[1] + ":00.000";
+                var mois = parseInt(sol.date.split("/")[1]) - 1;
+                var jour = parseInt(sol.date.split("/")[1]);
+                var heure = parseInt(sol.debut.split("h")[0]);
+                var min = parseInt(sol.debut.split("h")[1]);
+                start = moment.utc([year,mois,jour,heure,min]).format();
+                heure = parseInt(sol.fin.split("h")[0]);
+                min = parseInt(sol.fin.split("h")[1]);
+                end = moment.utc([year,mois,jour,heure,min]).format();
                 break;
             default:
                 tag = "Autres"
                 place = "";
-                start = end = new Date(year,mois,jour).toJSON().slice(0,10);
+                start = end = moment.utc([year,mois,jour]).format().slice(0,10);
                 //peut-il y avoir des activités sol de plusieurs jour ? klif ??
         }
         

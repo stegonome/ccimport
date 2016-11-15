@@ -282,8 +282,8 @@
 	<rotation>
 		<rotationId>ZMA2F0694</rotationId>
 		<particularite>DESIDERATA</particularite>
-		<dureePac>11h55</dureePac>
-		<dureeRpc>66h25</dureeRpc>
+		<dureePac>12h19</dureePac>
+		<dureeRpc>66h32</dureeRpc>
 		<nbCdb>1</nbCdb>
 		<nbOpl>1</nbOpl>
 		<listPeqRot>
@@ -347,6 +347,11 @@
 						<fab>STW</fab>
 					</peq>
 					<peq>
+						<nom>PERON</nom>
+						<prenom>Romain</prenom>
+						<fab>STW</fab>
+					</peq>
+					<peq>
 						<nom>BERCKMANS</nom>
 						<prenom>Kurt</prenom>
 						<fab>STW</fab>
@@ -360,11 +365,6 @@
 						<nom>TROUVE</nom>
 						<prenom>Clemence</prenom>
 						<fab>HOT</fab>
-					</peq>
-					<peq>
-						<nom>BURZI</nom>
-						<prenom>Eric</prenom>
-						<fab>STW</fab>
 					</peq>
 					<peq>
 						<nom>ORCEL</nom>
@@ -417,8 +417,8 @@
 						<fab>CCP</fab>
 					</peq>
 					<peq>
-						<nom>FAYOLLE</nom>
-						<prenom>Veronique</prenom>
+						<nom>FREIXA</nom>
+						<prenom>Nathalie</prenom>
 						<fab>C/C</fab>
 					</peq>
 					<peq>
@@ -427,8 +427,8 @@
 						<fab>C/C</fab>
 					</peq>
 					<peq>
-						<nom>CALABUIG</nom>
-						<prenom>Chrystel</prenom>
+						<nom>BEREAU</nom>
+						<prenom>Mariefrance</prenom>
 						<fab>HOT</fab>
 					</peq>
 					<peq>
@@ -449,6 +449,11 @@
 					<peq>
 						<nom>VEDRENNE</nom>
 						<prenom>Nathalie</prenom>
+						<fab>HOT</fab>
+					</peq>
+					<peq>
+						<nom>COURTEAULT</nom>
+						<prenom>Melanie</prenom>
 						<fab>HOT</fab>
 					</peq>
 					<peq>
@@ -478,20 +483,20 @@
 		<debut>00h00</debut>
 		<fin>23h59</fin>
 		<code>PRB</code>
-		<intitule>1JR LC</intitule>
+		<intitule>2 JOURS</intitule>
 	</sol>
 	<sol>
 		<date>17/07</date>
 		<debut>00h00</debut>
 		<fin>23h59</fin>
 		<code>PRB</code>
-		<intitule>1 JOUR</intitule>
+		<intitule>2 JOURS</intitule>
 	</sol>
 	<rotation>
 		<rotationId>ZOA1F0144</rotationId>
 		<particularite>DESIDERATA</particularite>
-		<dureePac>14h30</dureePac>
-		<dureeRpc>66h00</dureeRpc>
+		<dureePac>14h35</dureePac>
+		<dureeRpc>65h52</dureeRpc>
 		<nbCdb>1</nbCdb>
 		<nbOpl>1</nbOpl>
 		<listPeqRot>
@@ -540,8 +545,8 @@
 						<fab>C/C</fab>
 					</peq>
 					<peq>
-						<nom>LENZ</nom>
-						<prenom>Annaig</prenom>
+						<nom>VACHER</nom>
+						<prenom>Jacquesfrancoi</prenom>
 						<fab>C/C</fab>
 					</peq>
 					<peq>
@@ -558,11 +563,6 @@
 						<nom>DELANOUE</nom>
 						<prenom>Pascal</prenom>
 						<fab>STW</fab>
-					</peq>
-					<peq>
-						<nom>VIZIATI</nom>
-						<prenom>Anabel</prenom>
-						<fab>HOT</fab>
 					</peq>
 					<peq>
 						<nom>CHABAUD</nom>
@@ -690,11 +690,10 @@
 	</sol>
 	<sol>
 		<date>24/07</date>
-		<debut>06h00</debut>
-		<fin>22h00</fin>
+		<debut>09h00</debut>
+		<fin>17h30</fin>
 		<code>RBR</code>
 		<intitule>RESERVE</intitule>
-		<lieu>CDG</lieu>
 	</sol>
 	<sol>
 		<date>25/07</date>
@@ -724,211 +723,25 @@
 		<code>PRB</code>
 		<intitule>1J SEMESTR</intitule>
 	</sol>
-	<rotation>
-		<rotationId>ZOC5F0226</rotationId>
-		<dureePac>9h10</dureePac>
-		<dureeRpc>71h15</dureeRpc>
-		<nbCdb>1</nbCdb>
-		<nbOpl>2</nbOpl>
-		<listPeqRot>
-			<peqRot>
-				<nom>BATY</nom>
-				<prenom>Alain</prenom>
-				<fab>CDB</fab>
-			</peqRot>
-			<peqRot>
-				<nom>SIGNORET</nom>
-				<prenom>Denis</prenom>
-				<fab>OPL</fab>
-			</peqRot>
-			<peqRot>
-				<nom>DEDIEU</nom>
-				<prenom>Jeanluc</prenom>
-				<fab>OPL</fab>
-			</peqRot>
-		</listPeqRot>
-		<sv>
-			<date>29/07</date>
-			<vol>
-				<numVol>AF 226</numVol>
-				<from>CDG</from>
-				<to>DEL</to>
-				<dep>08h55</dep>
-				<arr>17h15</arr>
-				<lagFrom>2.0</lagFrom>
-				<lagTo>5.5</lagTo>
-				<type>332</type>
-				<version>040J021W147Y</version>
-				<listPeq>
-					<peq>
-						<nom>BATY</nom>
-						<prenom>Alain</prenom>
-						<fab>CDB</fab>
-					</peq>
-					<peq>
-						<nom>SIGNORET</nom>
-						<prenom>Denis</prenom>
-						<fab>OPL</fab>
-					</peq>
-					<peq>
-						<nom>DEDIEU</nom>
-						<prenom>Jeanluc</prenom>
-						<fab>OPL</fab>
-					</peq>
-					<peq>
-						<nom>ASSEO</nom>
-						<prenom>Soizick</prenom>
-						<fab>CCP</fab>
-					</peq>
-					<peq>
-						<nom>CHERADAME</nom>
-						<prenom>Laurent</prenom>
-						<fab>C/C</fab>
-					</peq>
-					<peq>
-						<nom>KHEIRIBOURCIER</nom>
-						<prenom>Myriam</prenom>
-						<fab>C/C</fab>
-					</peq>
-					<peq>
-						<nom>ARRACHART</nom>
-						<prenom>David</prenom>
-						<fab>STW</fab>
-					</peq>
-					<peq>
-						<nom>GUERN</nom>
-						<prenom>Pierre</prenom>
-						<fab>STW</fab>
-					</peq>
-					<peq>
-						<nom>ZAGNI-BOUCHARD</nom>
-						<prenom>Dorothee</prenom>
-						<fab>HOT</fab>
-					</peq>
-					<peq>
-						<nom>FOMPUDY</nom>
-						<prenom>Valerie</prenom>
-						<fab>HOT</fab>
-					</peq>
-					<peq>
-						<nom>SILARSAH</nom>
-						<prenom>Marie</prenom>
-						<fab>HOT</fab>
-					</peq>
-				</listPeq>
-				<indemFrom>
-					<monnaie>EUR (EURO)</monnaie>
-					<change>1</change>
-					<ir>18,30</ir>
-					<mf>3,66</mf>
-					<date>01/01/16</date>
-				</indemFrom>
-				<indemTo>
-					<monnaie>INR (ROUPIE)</monnaie>
-					<change>0,01313</change>
-					<ir>2540,00</ir>
-					<mf>508,00</mf>
-					<date>01/06/14</date>
-				</indemTo>
-				<recoDest>B</recoDest>
-				<listRecoDeg>
-					<recoDeg>
-						<deg>BOM</deg>
-						<categorie>B</categorie>
-					</recoDeg>
-				</listRecoDeg>
-			</vol>
-		</sv>
-		<sv>
-			<date>30/07</date>
-			<vol>
-				<numVol>AF 225</numVol>
-				<from>DEL</from>
-				<to>CDG</to>
-				<dep>19h05</dep>
-				<arr>04h15</arr>
-				<lagFrom>5.5</lagFrom>
-				<lagTo>2.0</lagTo>
-				<type>332</type>
-				<version>040J021W147Y</version>
-				<listPeq>
-					<peq>
-						<nom>BATY</nom>
-						<prenom>Alain</prenom>
-						<fab>CDB</fab>
-					</peq>
-					<peq>
-						<nom>SIGNORET</nom>
-						<prenom>Denis</prenom>
-						<fab>OPL</fab>
-					</peq>
-					<peq>
-						<nom>DEDIEU</nom>
-						<prenom>Jeanluc</prenom>
-						<fab>OPL</fab>
-					</peq>
-					<peq>
-						<nom>ASSEO</nom>
-						<prenom>Soizick</prenom>
-						<fab>CCP</fab>
-					</peq>
-					<peq>
-						<nom>CHERADAME</nom>
-						<prenom>Laurent</prenom>
-						<fab>C/C</fab>
-					</peq>
-					<peq>
-						<nom>KHEIRIBOURCIER</nom>
-						<prenom>Myriam</prenom>
-						<fab>C/C</fab>
-					</peq>
-					<peq>
-						<nom>ARRACHART</nom>
-						<prenom>David</prenom>
-						<fab>STW</fab>
-					</peq>
-					<peq>
-						<nom>GUERN</nom>
-						<prenom>Pierre</prenom>
-						<fab>STW</fab>
-					</peq>
-					<peq>
-						<nom>ZAGNI-BOUCHARD</nom>
-						<prenom>Dorothee</prenom>
-						<fab>HOT</fab>
-					</peq>
-					<peq>
-						<nom>FOMPUDY</nom>
-						<prenom>Valerie</prenom>
-						<fab>HOT</fab>
-					</peq>
-					<peq>
-						<nom>SILARSAH</nom>
-						<prenom>Marie</prenom>
-						<fab>HOT</fab>
-					</peq>
-				</listPeq>
-				<indemFrom>
-					<monnaie>INR (ROUPIE)</monnaie>
-					<change>0,01313</change>
-					<ir>2540,00</ir>
-					<mf>508,00</mf>
-					<date>01/06/14</date>
-				</indemFrom>
-				<indemTo>
-					<monnaie>EUR (EURO)</monnaie>
-					<change>1</change>
-					<ir>18,30</ir>
-					<mf>3,66</mf>
-					<date>01/01/16</date>
-				</indemTo>
-				<listRecoDeg>
-					<recoDeg>
-						<deg>AMS</deg>
-						<categorie>B</categorie>
-					</recoDeg>
-				</listRecoDeg>
-			</vol>
-		</sv>
-	</rotation>
+	<sol>
+		<date>29/07</date>
+		<debut>00h00</debut>
+		<fin>23h59</fin>
+		<code>DSP</code>
+		<intitule>DISPERSION</intitule>
+	</sol>
+	<sol>
+		<date>30/07</date>
+		<debut>00h00</debut>
+		<fin>23h59</fin>
+		<code>DSP</code>
+		<intitule>DISPERSION</intitule>
+	</sol>
+	<sol>
+		<date>31/07</date>
+		<debut>00h00</debut>
+		<fin>23h59</fin>
+		<code>DSP</code>
+		<intitule>DISPERSION</intitule>
+	</sol>
 </planning>

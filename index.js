@@ -177,13 +177,15 @@ function script(){
                 details_str += "\n\nAvion: \n type: " + vol.type + "\n version: " + vol.version; 
                 
                 var equipage = "";
-                vol.listPeq.peq.forEach(function(peq){
-                    if(peq.fab  !== null){
-                        equipage += peq.fab + ": " + peq.nom + " " + peq.prenom + "\n";
-                    } else {
-                       equipage += "XXX: " + peq.nom + " " + peq.prenom + "\n";
-                    }
-                });
+                if (vol.listPeq.peq.forEach){
+	                vol.listPeq.peq.forEach(function(peq){
+	                    if(peq.fab  !== null){
+	                        equipage += peq.fab + ": " + peq.nom + " " + peq.prenom + "\n";
+	                    } else {
+	                       equipage += "XXX: " + peq.nom + " " + peq.prenom + "\n";
+	                    }
+	                });
+	            }//s'il n'y qu'un seul nom laisser tomber
                 details_str += "\n\n" + equipage;
                 
                 details_str += "\n\nReconnaissances Terrain: \n";

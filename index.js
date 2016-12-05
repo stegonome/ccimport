@@ -163,6 +163,7 @@ function script(){
 	                	    equipage += peq.fab.toUpperCase() + ": " + peq.nom + " " + peq.prenom + "\n";
 	                	});
 	                } else {//s'il y a un seul nom
+	                	equipage += peqRot.fab.toUpperCase() + ": " + peq.nom + " " + peq.prenom + "\n";
 	                }
             	}
                 details_str += "Equipage de la rotation: \n" + equipage;

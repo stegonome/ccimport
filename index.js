@@ -157,9 +157,15 @@ function script(){
             case "rotation":
                 var rotation = JSON.parse(xml2json(xmlDoc,"")).rotation;
                 var equipage = "";
-                rotation.listPeqRot.peqRot.forEach(function(peq){
-                    equipage += peq.fab.toUpperCase() + ": " + peq.nom + " " + peq.prenom + "\n";
-                });
+                if (rotation.listPeqRot.peqRot){
+                	if (rotation.listPeqRot.peqRot.forEach){//s'il y a plusieurs nom (table)
+	            	    rotation.listPeqRot.peqRot.forEach(function(peq){
+	                	    equipage += peq.fab.toUpperCase() + ": " + peq.nom + " " + peq.prenom + "\n";
+	                	});
+	                } else {//s'il y a un seul nom
+	                	equipage += rotation.listPeqRot.peqRot.fab.toUpperCase() + ": " + peq.nom + " " + peq.prenom + "\n";
+	                }
+            	}
                 details_str += "Equipage de la rotation: \n" + equipage;
                 return details_str;
                 

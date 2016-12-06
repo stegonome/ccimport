@@ -33,7 +33,7 @@ function script(){
 	fileform.addEventListener("submit", function(e){
 		e.preventDefault();
 		window.fileInput = fileInput;//debug
-		if (fileInput.files[0] === undefined){//si aucun fichier n'est sélectionné
+		if (fileInput.files.length === 0){//si aucun fichier n'est sélectionné
 			status.textContent = statusMsg[3];//afficher une erreur
 			status.classList.add("error");
 		} else {//sinon lire le fichier en mode texte
@@ -163,9 +163,7 @@ function script(){
 	                	    equipage += peq.fab.toUpperCase() + ": " + peq.nom + " " + peq.prenom + "\n";
 	                	});
 	                } else {//s'il y a un seul nom
-
 	                	equipage += rotation.listPeqRot.peqRot.fab.toUpperCase() + ": " + peq.nom + " " + peq.prenom + "\n";
-
 	                }
             	}
                 details_str += "Equipage de la rotation: \n" + equipage;

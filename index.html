@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<title>ChopeCrew Import</title>
 
+	<link rel="stylesheet" href="pure-min.css">
 	<link href="index.css" rel="stylesheet">
 
 	
@@ -12,20 +13,18 @@
 </head>
 <body>
 
-	<form id="file-form" method="post">
-		<label for="file-input">Choisissez un fichier</label>
-		<input type="file" id="file-input">
-		<input type="submit" value="importer">
+	<form id="file-form" method="post" class="pure-form">
+		<label for="file-input">ChopeCrew Import</label><br>
+		<input type="file" id="file-input"><br>
+		<input type="submit" value="importer" class="pure-button">
 	</form>
 
 
-	<br>
-
+	
 	<span id="status">chargement...</span>
-	<script src="index.js"></script>
 
-    <br>
-    
-    <button id="dummy">Export dummy event</button>
+
+	
+    <!-- <button id="dummy">Export dummy event</button> -->
 </body>
 </html>

@@ -9,11 +9,13 @@ function script(){
     var year, month;
     
 	//liste des strings pour les messages de statut
-	var statusMsg = ["Chargement","Fichier invalide","Fichier chargé","Cliquez ci-dessus pour sélectionner un fichier","Erreur de lecture","Importation réussie"];
+	var statusMsg = ["Chargement","Fichier invalide","Fichier chargé","Cliquez ci-dessus pour sélectionner un fichier","Erreur de lecture","Importation réussie","Erreur d'importation"];
 
 	
     //récupération des éléments du DOM
 	var status = document.querySelector("#status"),
+        status2 = document.querySelector("#status2"),
+        status3 = document.querySelector("#status3"),
 		fileform = document.querySelector("#file-form"),
 		fileInput = document.querySelector("#file-input");
    
@@ -35,20 +37,35 @@ function script(){
 		window.fileInput = fileInput;//debug
 		if (fileInput.files.length === 0){//si aucun fichier n'est sélectionné
 			status.textContent = statusMsg[3];//afficher une erreur
-			status.classList.add("error");
+			//status.classList.add("error");
+            warning_sts();
 		} else {//sinon lire le fichier en mode texte
 			reader.readAsText(fileInput.files[0]);//déclenchera fileLoaded, ou fileError
 			status.textContent = statusMsg[0];
-			status.classList.remove("error");
+			//status.classList.remove("error");
+            ok_sts();
 		}
 	}, false);
     
     
 
+    function warning_sts(){
+        status.removeAttribute("class");
+        status.classList.add("alert");
+        status.classList.add("alert-warning");
+    }
+    
+    function ok_sts(){
+        status.removeAttribute("class");
+        status.classList.add("alert");
+        status.classList.add("alert-success");
+    }
+    
 
 	function fileLoaded(){//quand le fichier est chargé
 		status.textContent = statusMsg[2];
-		status.classList.remove("error");
+		//status.classList.remove("error");
+        ok_sts();
 		window.filecontent = reader.result;//debug
 
 		var parser = new DOMParser();//createion d'un DOM à partir de la string xml
@@ -57,14 +74,16 @@ function script(){
 		window.xml = xmlDoc;//debug
 
 		if (checkXML(xmlDoc)){//vérification du xml
-			status.textContent = statusMsg[5];
-			status.classList.remove("error");
-            
+			//status.textContent = statusMsg[5];
+			//status.classList.remove("error");
+            //ok_sts();            
 			//debug();
             createPlanning(xmlDoc);//création du planning
-		} else {//si non affiche fichier invalide
+		} else {//sinon affiche fichier invalide
 			status.textContent = statusMsg[1];
-			status.classList.add("error");
+			//status.classList.add("error");
+            warning_sts();
+           
 		}
 
 
@@ -72,7 +91,8 @@ function script(){
 
 	function fileError(){//erreur de lecture du fichier
 		status.textContent = statusMsg[4];
-		status.classList.add("error");
+		//status.classList.add("error");
+        warning_sts();
 
 	}
 
@@ -421,13 +441,22 @@ function script(){
         
         console.log(cozyEvents);
         
-        
+        var j = 0;
         //à décommenter pour cozy
         for (var i=0; i<cozyEvents.length; i++){
             cozysdk.create("Event", cozyEvents[i], function(err, res){
-                if(err !== null) return alert(err);
+                if(err !== null){
+                    status.textContent = statusMsg[6];
+                    warning_sts();
+                    return;
+                } ;
             }, false)
+            j++
         }
+        
+        status.textContent = statusMsg[5];
+        ok_sts();
+        status3.textContent = j + " éléments importés dans Calendrier."        
         
         cozyEvents = [];
        
@@ -473,6 +502,7 @@ function script(){
 	                       });
 	                       
 	                       console.log(i + " éléments effacés");
+                           status2.textContent = i + " éléments effacés";
 	                       resolve();
 	                   } 
 	                });

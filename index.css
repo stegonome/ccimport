@@ -3,10 +3,20 @@
 }
 
 #content{
-    width: 30%;
+    width: 99%;
     margin: auto
 }
 
-h3 {
-  
+@media (min-width: 500px) {
+    #content{
+    width: 50%;
+    margin: auto
+}
+    
+@media (min-width: 1000px) {
+    #content{
+    width: 30%;
+    margin: auto
+}
+    
 }

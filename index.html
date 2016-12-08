@@ -4,24 +4,50 @@
 	<meta charset="utf-8">
 	<title>ChopeCrew Import</title>
 
-	<link rel="stylesheet" href="pure-min.css">
+	<!--<link rel="stylesheet" href="pure-min.css">-->
+    <link href="bootstrap.min.css" rel="stylesheet">
 	<link href="index.css" rel="stylesheet">
 
 	
     <script src="cozysdk-client.js"></script>
     <script src="moment.js"></script>
 </head>
+    
+    
 <body>
+    
+    
+    
+    <div id="content" class="container-fluid">
+        <div class="row">
+            <h3>ChopeCrew Import</h3>
+        </div>
+        <br>
+        <div class="row">
+            <form id="file-form" method="post">
+                <div class="input-group">
+                    <input id="file-input" type="file" class="form-control">
+                    <span class="input-group-btn">
+                        <input type="submit" value="Importer" class="btn btn-primary">
+                    </span>
+                </div>                
+            </form>
+        </div>
+        <br>
+        <div class="row">        
+            <span id="status">Chargement...</span>
+        </div>
+    </div>
 
-	<form id="file-form" method="post" class="pure-form">
-		<label for="file-input">ChopeCrew Import</label><br>
-		<input type="file" id="file-input"><br>
-		<input type="submit" value="importer" class="pure-button">
-	</form>
-
-
-	
-	<span id="status">chargement...</span>
+    <!--<div id="content">
+        <form id="file-form" method="post">
+		<label for="file-input">ChopeCrew Import</label>
+		<input type="file" id="file-input">
+		<input type="submit" value="importer">
+	    </form>
+        
+        <span id="status">chargement...</span>
+    </div>-->
 
     <script src="index.js"></script>
 	

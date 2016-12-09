@@ -9,7 +9,7 @@ function script(){
     var year, month;
     
 	//liste des strings pour les messages de statut
-	var statusMsg = ["Chargement","Fichier invalide","Fichier chargé","Cliquez ci-dessus pour sélectionner un fichier","Erreur de lecture","Importation réussie","Erreur d'importation"];
+	var statusMsg = ["Chargement","Fichier invalide","Fichier chargé","Choisir un fichier","Erreur de lecture","Importation réussie","Erreur d'importation"];
 
 	
     //récupération des éléments du DOM

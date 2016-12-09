@@ -120,8 +120,9 @@ function script(){
         month = parseInt(month) - 1;
       
        
-        var sols = planningXml.querySelectorAll("sol");
-        var rotations = planningXml.querySelectorAll("rotation");
+        var sols = Array.from(planningXml.querySelectorAll("sol"));
+        var rotations = Array.from(planningXml.querySelectorAll("rotation"));
+        window.rot = rotations;
         
         rotations.forEach(function(rotation){
             
@@ -343,7 +344,7 @@ function script(){
     }
     
     function extractFlights(rotation){
-        var svs = rotation.querySelectorAll("sv");
+        var svs = Array.from(rotation.querySelectorAll("sv"));
         var flights = [];
         
         svs.forEach(function(sv){
@@ -351,7 +352,7 @@ function script(){
                 mois = parseInt(dateString[1]) - 1,
                 jour = parseInt(dateString[0]);
             
-            var vols = sv.querySelectorAll("vol");
+            var vols = Array.from(sv.querySelectorAll("vol"));
             vols.forEach(function(vol){
                 
                 var details = extractDetails(vol);
@@ -407,9 +408,9 @@ function script(){
     
     function lastSvDate(rotation){
         var rotation = rotation,
-            svs = rotation.querySelectorAll("sv");
+            svs = Array.from(rotation.querySelectorAll("sv"));
         var dateString = svs[svs.length - 1].querySelector("date").textContent.split("/");
-        var vols = svs[svs.length - 1].querySelectorAll("vol"),
+        var vols = Array.from(svs[svs.length - 1].querySelectorAll("vol")),
             lastflight = vols[vols.length -1];
         var dep = lastflight.querySelector("dep").textContent.split("h").join(""),
             arr = lastflight.querySelector("arr").textContent.split("h").join("");

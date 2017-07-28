@@ -2,25 +2,25 @@ document.addEventListener("DOMContentLoaded", script, false);
 
 
 function script(){
-    
+
     console.log("bienvenue dans ccimport");
 
 	var cozyEvents = [];
     var year, month;
-    
+
 	//liste des strings pour les messages de statut
 	var statusMsg = ["Chargement","Fichier invalide","Fichier chargé","Choisir un fichier","Erreur de lecture","Importation réussie","Erreur d'importation"];
 
-	
+
     //récupération des éléments du DOM
 	var status = document.querySelector("#status"),
         status2 = document.querySelector("#status2"),
         status3 = document.querySelector("#status3"),
 		fileform = document.querySelector("#file-form"),
 		fileInput = document.querySelector("#file-input");
-   
-    
-    
+
+
+
 	//API File HTML5
 	var reader = new FileReader();
 	reader.addEventListener("load", fileLoaded);
@@ -30,7 +30,7 @@ function script(){
 	//message de statut initial
 	status.textContent = statusMsg[3];
 
-	
+
     //écouteur d'évènement submit sur le <form>
 	fileform.addEventListener("submit", function(e){
 		e.preventDefault();
@@ -46,21 +46,21 @@ function script(){
             ok_sts();
 		}
 	}, false);
-    
-    
+
+
 
     function warning_sts(){
         status.removeAttribute("class");
         status.classList.add("alert");
         status.classList.add("alert-warning");
     }
-    
+
     function ok_sts(){
         status.removeAttribute("class");
         status.classList.add("alert");
         status.classList.add("alert-success");
     }
-    
+
 
 	function fileLoaded(){//quand le fichier est chargé
 		status.textContent = statusMsg[2];
@@ -76,14 +76,14 @@ function script(){
 		if (checkXML(xmlDoc)){//vérification du xml
 			//status.textContent = statusMsg[5];
 			//status.classList.remove("error");
-            //ok_sts();            
+            //ok_sts();
 			//debug();
             createPlanning(xmlDoc);//création du planning
 		} else {//sinon affiche fichier invalide
 			status.textContent = statusMsg[1];
 			//status.classList.add("error");
             warning_sts();
-           
+
 		}
 
 
@@ -118,22 +118,22 @@ function script(){
         month = planningXml.querySelector("planning").getAttribute("mois").slice(0,2);
         year = parseInt(year);
         month = parseInt(month) - 1;
-      
-       
+
+
         var sols = Array.from(planningXml.querySelectorAll("sol"));
         var rotations = Array.from(planningXml.querySelectorAll("rotation"));
         window.rot = rotations;
-        
+
         rotations.forEach(function(rotation){
-            
+
             cozyEvents = cozyEvents.concat(extractFlights(rotation));
-            
+
             var startDay = firstSvDate(rotation),
                 endDay = lastSvDate(rotation);
             var details = extractDetails(rotation);
             var rotation = JSON.parse(xml2json(rotation,"")).rotation;
-         
-            
+
+
             var cozyrot = {
                 docType         : "event",
                 start           : startDay.format().slice(0,10),
@@ -150,30 +150,30 @@ function script(){
                 created         : new Date().toDateString(),
                 lastModification: "",
             };
-                
+
             //console.log(cozyrot);
             cozyEvents.push(cozyrot);
-            
+
         });
-        
+
         sols.forEach(function(sol){
-            
+
             cozyEvents.push(extractSol(sol));
-            
+
         });
-        
+
         console.log(cozyEvents);
         //décommenter avant de commit
         eraseEvents().then(function(){
             importInCozy();
         });
     }
-    
-    
+
+
     function extractDetails(xmlDoc){
         var type = xmlDoc.nodeName.toLowerCase();
         var details_str = "";
-        
+
         switch(type){
             case "rotation":
                 var rotation = JSON.parse(xml2json(xmlDoc,"")).rotation;
@@ -190,14 +190,14 @@ function script(){
             	}
                 details_str += "Equipage de la rotation: \n" + equipage;
                 return details_str;
-                
+
             case "vol":
                 var vol = JSON.parse(xml2json(xmlDoc,"")).vol;
                 window.vol = vol;
                 details_str += "Départ UTC: " + vol.from + " à " + vol.dep + " (" + vol.lagFrom + ")";
                 details_str += "\nArrivée UTC: " + vol.to + " à " + vol.arr + " (" + vol.lagTo + ")";
-                details_str += "\n\nAvion: \n type: " + vol.type + "\n version: " + vol.version; 
-                
+                details_str += "\n\nAvion: \n type: " + vol.type + "\n version: " + vol.version;
+
                 var equipage = "";
                 if (vol.listPeq.peq.forEach){
 	                vol.listPeq.peq.forEach(function(peq){
@@ -209,7 +209,7 @@ function script(){
 	                });
 	            }//s'il n'y qu'un seul nom laisser tomber
                 details_str += "\n\n" + equipage;
-                
+
                 details_str += "\n\nReconnaissances Terrain: \n";
                 if(vol.recoDest){
                     details_str += "Destination: " + vol.recoDest + "\n\n"
@@ -223,9 +223,9 @@ function script(){
                     } else {
                         details_str += "\n" + vol.listRecoDeg.recoDeg.deg + " : " + vol.listRecoDeg.recoDeg.categorie;
                     }
-                } 
-              
-                
+                }
+
+
                 if(vol.indemTo){
                     details_str += "\n\nIndemnités: \n";
                     details_str += "\nMonnaie: " + vol.indemTo.monnaie;
@@ -233,10 +233,10 @@ function script(){
                     details_str += "\nIR: " + vol.indemTo.ir;
                     details_str += "\nMF: " + vol.indemTo.mf
                 }
-                
-                
+
+
                 return details_str;
-            
+
             case "sol":
                 var sol = JSON.parse(xml2json(xmlDoc,"")).sol;
                 Object.keys(sol).forEach(function(key){
@@ -244,28 +244,28 @@ function script(){
                         details_str += key + ": " + sol[key] + "\n";
                     }
                 });
-                
+
                 if(sol.listParticipant){
                     sol.listParticipant.participant.forEach(function(participant){
                         details_str += "\n"
                        Object.keys(participant).forEach(function(key){
-                          details_str += key + ": " + participant[key] + "\n" 
+                          details_str += key + ": " + participant[key] + "\n"
                        });
                     });
                 }
                 return details_str;
         }
-        
+
     }
-    
-    
+
+
     function extractSol(sol){
         var details = extractDetails(sol);
         var sol = JSON.parse(xml2json(sol,"")).sol;
         var tag, place, details, description, start, end;
         var mois = parseInt(sol.date.split("/")[1]) - 1,
             jour = parseInt(sol.date.split("/")[0]);
-        
+
         switch(sol.code){
             case "PAC":
             case "RPC":
@@ -295,11 +295,12 @@ function script(){
                 details = details;
                 start = end = moment.utc([year,mois,jour]).format().slice(0,10);
                 break;
-                
-            
+
+
             case "SST":
             case "MCI":
             case "RBR":
+            case "MIM":
                 //ECP
                 tag = "Activités sol";
                 description = sol.intitule;
@@ -320,9 +321,9 @@ function script(){
                 start = end = moment.utc([year,mois,jour]).format().slice(0,10);
                 //peut-il y avoir des activités sol de plusieurs jour ? klif ??
         }
-        
-     
-  
+
+
+
         return {
             docType         : "event",
             start           : start,
@@ -339,42 +340,42 @@ function script(){
             created         : new Date().toDateString(),
             lastModification: "",
         };
-            
-        
+
+
     }
-    
+
     function extractFlights(rotation){
         var svs = Array.from(rotation.querySelectorAll("sv"));
         var flights = [];
-        
+
         svs.forEach(function(sv){
             var dateString = sv.querySelector("date").textContent.split("/"),
                 mois = parseInt(dateString[1]) - 1,
                 jour = parseInt(dateString[0]);
-            
+
             var vols = Array.from(sv.querySelectorAll("vol"));
             vols.forEach(function(vol){
-                
+
                 var details = extractDetails(vol);
-                
+
                 var vol = JSON.parse(xml2json(vol,"")).vol;
                 window.vol = vol;
                 var hour = parseInt(vol.dep.split("h")[0]),
                     min = parseInt(vol.dep.split("h")[1]),
                     startTime = moment.utc([year,mois,jour,hour,min]);
-                
+
                     hour = parseInt(vol.arr.split("h")[0]);
                     min = parseInt(vol.arr.split("h")[1]);
                 var endTime = moment.utc([year,mois,jour,hour,min]);
-                
+
                 if(endTime < startTime){
                     //c'est une arrivée le jour suivant
                     endTime.add(1, "days");
                 }
-                
+
                 var description = [vol.numVol,"|",vol.from,"-",vol.to,"|",vol.type].join(" ");
-                
-                
+
+
                 var cozyflight = {
                     docType         : "event",
                     start           : startTime.format(),
@@ -391,21 +392,21 @@ function script(){
                     created         : new Date().toDateString(),
                     lastModification: "",
                 };
-                
+
                 flights.push(cozyflight);
             });
         });
-        
+
         return flights;
     }
-    
+
     function firstSvDate(rotation){
         var dateString = rotation.querySelector("sv").querySelector("date").textContent.split("/");
         var mois = parseInt(dateString[1])-1;
         var jour = parseInt(dateString[0]);
         return moment.utc([year,mois,jour]);
     }
-    
+
     function lastSvDate(rotation){
         var rotation = rotation,
             svs = Array.from(rotation.querySelectorAll("sv"));
@@ -417,31 +418,31 @@ function script(){
 
         var jour = parseInt(dateString[0]),
         	mois = parseInt(dateString[1])-1;
-        
+
         var m = moment.utc([year,mois,jour]);
-        
+
         if(mois === 0 && month === 11){//mois du vol retour janvier, et mois du planning décembre
             m.add(1,"years")
-        } 
-     
+        }
+
         if (arr < dep){
             //arrivée le jour suivant
            m.add(2,"days");
            return m;
             //il faut rajouter 1 ou 2 jours car le dernier est exclu
             //par cozy calendar apparemment
-        } 
+        }
          m.add(1,"days");
         return m;
     }
-    
-    
 
-    
+
+
+
     function importInCozy(){
-        
+
         console.log(cozyEvents);
-        
+
         var j = 0;
         //à décommenter pour cozy
         for (var i=0; i<cozyEvents.length; i++){
@@ -454,17 +455,17 @@ function script(){
             }, false)
             j++
         }
-        
+
         status.textContent = statusMsg[5];
         ok_sts();
-        status3.textContent = j + " éléments importés dans Calendrier."        
-        
+        status3.textContent = j + " éléments importés dans Calendrier."
+
         cozyEvents = [];
-       
+
     }
-    
+
     function eraseEvents(){//effacement des évènements précédents, sur la période du fichier xml
-    	
+
 
     	return new Promise(function(resolve, reject){//il faut une promesse pour effacer les evts
                                                     //avant	de créer les nouveaux
@@ -476,8 +477,8 @@ function script(){
                 if (cozyEvents[i].start < firstEvent.start) firstEvent = cozyEvents[i];
                 if (cozyEvents[i].end > lastEvent.end) lastEvent = cozyEvents[i];
             }
-            
-            
+
+
     		var thismonth = function(doc){//view qui renvoie les docs ayant le tag 'af'
 	            if(doc.start && doc.tags && doc.tags.forEach){
 	                doc.tags.forEach(function(tag){
@@ -490,7 +491,7 @@ function script(){
 
 	        cozysdk.defineView("Event","all",thismonth,function(err){
 	            if(!err){
-	                
+
 	                var params = {startkey:firstEvent.start.slice(0,10), endkey:lastEvent.end.slice(0,10)}
 	                console.log(params);
 	                cozysdk.run("Event","all",params,function(err,res){
@@ -501,29 +502,29 @@ function script(){
 	                           cozysdk.destroy("Event",evt.id);
 	                           i++;
 	                       });
-	                       
+
 	                       console.log(i + " éléments effacés");
                            status2.textContent = i + " éléments effacés";
 	                       resolve();
-	                   } 
+	                   }
 	                });
 	            }
 	        });
     	});
     }
-  
-    
-   
-  
-    
-    
-    
+
+
+
+
+
+
+
     /*	This work is licensed under Creative Commons GNU LGPL License.
 
 	License: http://creativecommons.org/licenses/LGPL/2.1/
    Version: 0.9
 	Author:  Stefan Goessner/2006
-	Web:     http://goessner.net/ 
+	Web:     http://goessner.net/
 */
     function xml2json(xml, tab) {
        var X = {
@@ -673,13 +674,13 @@ function script(){
        var json = X.toJson(X.toObj(X.removeWhite(xml)), xml.nodeName, "\t");
        return "{\n" + tab + (tab ? json.replace(/\t/g, tab) : json.replace(/\t|\n/g, "")) + "\n}";
     }
-    
-    
-    
-    
-    
-    
-	
+
+
+
+
+
+
+
 
 
 }
